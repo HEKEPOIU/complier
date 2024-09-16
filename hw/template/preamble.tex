@@ -1,0 +1,225 @@
+\documentclass[letterpaper, 11pt]{extarticle}
+% \usepackage{fontspec}
+
+% ==================================================
+
+% document parameters
+% \usepackage[spanish, mexico, es-lcroman]{babel}
+\usepackage[english]{babel}
+\usepackage[margin = 1in]{geometry}
+
+% ==================================================
+
+% Packages for math
+\usepackage{mathrsfs}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{physics}
+\usepackage{dsfont}
+\usepackage{esint}
+
+% ==================================================
+
+% Packages for writing
+\usepackage{enumerate}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{csquotes}
+
+% ==================================================
+
+% Miscellaneous packages
+\usepackage{float}
+\usepackage{tabularx}
+%\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{subcaption}
+\usepackage{caption}
+\captionsetup{format = hang, margin = 10pt, font = small, labelfont = bf}
+
+
+
+\usepackage{multirow}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,calc,automata,positioning, chains,scopes, cd}
+%\usegdlibrary{trees}
+\usepackage{listings} %% listing code
+\usepackage{url}
+\usepackage{ifthen}
+\usepackage[dvipsnames]{xcolor}
+%\usepackage{pseudocode}
+%\usepackage[vlined]{algorithm2e}
+\usepackage{algpseudocode}
+\usepackage[noEnd=true]{algpseudocodex}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{CJKutf8}
+\usepackage{bussproofs}
+\usepackage{fitch}
+\newcommand{\chinese}[1]{\begin{CJK}{UTF8}{bkai}#1\end{CJK}}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage{stmaryrd}
+\usepackage{mathpartir}
+\usepackage{multirow}
+%\usepackage{chessboard}
+%\usepackage{mpgraphics}
+\usepackage{chessfss}
+
+
+% Hyperlinks setup
+\usepackage{hyperref}
+\definecolor{links}{rgb}{0.36,0.54,0.66}
+\hypersetup{
+   colorlinks = true,
+    linkcolor = black,
+     urlcolor = blue,
+    citecolor = blue,
+    filecolor = blue,
+    pdfauthor = {Author},
+     pdftitle = {Title},
+   pdfsubject = {subject},
+  pdfkeywords = {one, two},
+  pdfproducer = {LaTeX},
+   pdfcreator = {pdfLaTeX},
+   }
+   
+% Citation
+\usepackage[round, authoryear]{natbib}
+
+% listing
+\lstloadlanguages{C,C++,[Objective]Caml,[x86masm]Assembler,Pascal,Java,bash}
+
+\lstset{
+    language=[Objective]Caml,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    commentstyle=,
+    backgroundcolor=\color{lightgray!50},
+    morekeywords={parse, rule}
+}
+
+\lstdefinestyle{caml}{
+    language=[Objective]Caml,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    commentstyle=,
+    backgroundcolor=\color{lightgray!50},
+    morekeywords={parse, rule}
+}
+
+% language definition
+\lstdefinelanguage[x86]{Assembler}
+{
+    alsoletter={.}, % allow dots in keywords
+    alsodigit={0x}, % hex numbers are numbers too!
+    morekeywords=[1]{ % instructions
+        pushq, movq, popq, addq, subq, imulq, incq, decq, negq, notq, orq, andq, xorq, salq, sarq, shrq, rolq, rorq, movb, movzbq, movswl, leaq, jne, setge, cmovl, cmpq, testq, jmp, call, ret, leave, jz, jnz,
+    },
+    morekeywords=[2]{ % sections of our code and other directives
+        .align, .ascii, .asciiz, .byte, .data, .double, .extern,
+        .float, .globl, .half, .kdata, .ktext, .set, .space, .text, .word, .string, .globl, .quad,
+    },
+    morekeywords=[3]{ % registers
+        \%rax, \%rbx, \%rcx, \%rdx, \%rbp, \%rsp, \%rsi, \%rdi,
+        \%r8, \%r9, \%r10, \%r11, \%r12, \%r13, \%r14, \%r15
+    },
+    morecomment=[l]{;},   % mark ; as line comment start
+    %  morecomment={main, message,},
+    morecomment=[l]{\#},  % as well as # (even though it is unconventional)
+    morestring=[b]",      % mark " as string start/end
+    morestring=[b]'       % also mark ' as string start/end
+}
+
+\lstdefinestyle{asm}{
+    language=[x86]Assembler,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    %keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{purple!50!black},  % comments are green
+    keywordstyle=[1]\color{blue!80!black},        % instructions are blue
+    keywordstyle=[2]\color{orange!80!black},      % sections/other directives are orange
+    keywordstyle=[3]\color{red!50!black},         % registers are red
+    % stringstyle=\color{mauve},                    % strings are from the telekom
+    %identifierstyle=\color{teal},                 % user declared addresses are teal
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    %    commentstyle=\color{purple},
+    %    identifierstyle=\color{red},
+    backgroundcolor=\color{lightgray!70},
+    %    morekeywords={pushq, movq, popq, addq, subq, imulq, incq, decq, negq, notq, orq, andq, xorq, salq, sarq, shrq, rolq, rorq, movb, movzbq, movswl, leaq, jne, setge, cmovl, cmpq, testq, jmp, call, ret, leave}
+}
+
+
+\lstdefinestyle{bash}{
+    language=bash,
+    basicstyle=\small\ttfamily,
+    backgroundcolor=\color{pink!50},
+    breaklines=true,
+    keywordstyle=\color{black},
+}
+
+
+\lstdefinestyle{pascal}{
+    language=Pascal,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{blue}\bfseries,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    commentstyle=,
+    backgroundcolor=\color{lightgray!50},
+    %morekeywords={parse, rule}
+}
+
+\lstdefinestyle{java}{
+    language=Java,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{purple}\bfseries,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    commentstyle=,
+    backgroundcolor=\color{lightgray!50},
+    %   morekeywords={parse, rule}
+}
+
+\lstdefinestyle{clang}{
+    language=C,
+    columns=fullflexible,
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{purple}\bfseries,
+    keepspaces=true,
+    upquote=true,
+    breaklines=true,
+    literate={'"'}{\textquotesingle "\textquotesingle}3,
+    showstringspaces=false,
+    commentstyle=,
+    backgroundcolor=\color{lightgray!50},
+    %   morekeywords={parse, rule}
+}
+
+

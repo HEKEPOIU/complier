@@ -1,0 +1,186 @@
+\begin{problem}{Number warm-up}{}
+    Write the following functions in OCaml
+    
+    \begin{enumerate}[(a)]
+        \item \lstinline|fact| such that \lstinline|fact n| returns the factorial of the positive integer \lstinline|n|.
+
+        \begin{lstlisting}[style=caml]
+            let fact n =
+                let rec aux n total = 
+                    if n <= 1 then 
+                        total
+                    else
+                        aux (n - 1) (total * n)
+                in
+                aux n 1
+        \end{lstlisting}
+        
+        \item \lstinline|nb_bit_pos| such that \lstinline|bn_bit_pos n| returns the number of bits equal to $1$ in the binary representation of the positive integer \lstinline|n|
+        \begin{lstlisting}[style=caml]
+            let nb_bit_pos n =
+                let rec aux n total =
+                    if n = 0 then
+                        total
+                    else
+                        aux (n lsr 1) (total + (n land 1))
+                in
+                aux n 0
+        \end{lstlisting}
+    \end{enumerate}
+
+\end{problem}
+
+\begin{problem}{Fibonacci}{}
+    Here is a naive writing of a function calculating the terms of the Fibonacci sequence
+    
+    \begin{lstlisting}[style=caml]
+      let rec fibo n =
+        (* precondition : n >= 0 *)
+        if n <= 1 then 
+          n
+        else 
+          fibo (n-1) + fibo (n-2)
+    \end{lstlisting}
+    Write a new version of this function with linear complexity in the parameter \lstinline|n|.
+    \textit{Indication} You can use an auxiliary function using two accumulators.
+
+    \begin{lstlisting}[style=caml]
+            let fibo n =
+                let rec aux n a b =
+                    match n with
+                    | 0 -> a
+                    | _ -> aux (n-1) b (a+b)
+                in
+                aux n 0 1
+    \end{lstlisting}
+    
+\end{problem}
+
+\begin{problem}{Strings}{}
+    Writing functions in OCaml
+    \begin{enumerate}[(a)]
+        \item \lstinline|palindrome| such that \lstinline|palindrome m| returns \lstinline|true| if and only if the string \lstinline|m| is a palindrome\\
+        (that is, we see the same sequence of characters whether we read it from left to right
+        or from right to left, e.g. \textit{madam})
+        \begin{lstlisting}[style=caml]
+                let palindrome m =
+                    let length = String.length m in
+                    let rec check l r =
+                        if l >= r then
+                            true
+                        else if m.[l] <> m.[r] then
+                            false
+                        else 
+                            check (l+1) (r-1)
+                    in 
+                    check 0 (length - 1)
+        \end{lstlisting}
+
+
+        \item \lstinline|compare| such that \lstinline|compare m1 m2| returns \lstinline|true| if and only if the string \lstinline|m1| is smaller in lexicographic order than the string \lstinline|m2|\\ 
+        (that is, \lstinline|m1| would appear before \lstinline|m2| in a dictionary);
+
+        \begin{lstlisting}[style=caml]
+            let compare m1 m2 = 
+                (m1 < m2)
+        \end{lstlisting}
+
+        \item \lstinline|factor| such that \lstinline|factor m1 m2| returns \lstinline|true| if and only if the string \lstinline|m1| is a factor of the string \lstinline|m2|\\ 
+        (that is, \lstinline|m1| appears as is in \lstinline|m2|).
+
+        \begin{lstlisting}[style=caml]
+            let factor m1 m2 =
+                let length_1 = String.length m1 in
+                let length_2 = String.length m2 in
+
+                if (length_2 < length_1) then
+                    false
+                else
+                    let rec check p_1 p_2 =
+                        if (p_2 = length_2 && p_1 <> length_1) then 
+                            false
+                        else if p_1 = length_1 then
+                            true
+                        else
+                            match (m1.[p_1] = m2.[p_2]) with
+                            | true -> check (p_1+1) (p_2+1)
+                            | false -> check (0) (p_2+1)
+                            
+                    in 
+                    check 0 0
+        \end{lstlisting}
+
+    \end{enumerate}
+\end{problem}
+
+\begin{problem}{Merge sort}{}
+    The merge sort algorithm sorts a list by applying the following principle:
+    \begin{enumerate}[(i)]
+        \item cut the list into two roughly equal parts;
+        \item recursively sort each of the two obtained lists;
+        \item merge the two sorted lists while preserving the order.
+    \end{enumerate}
+    Write the functions
+    \begin{enumerate}[(a)]
+        \item \lstinline|split| such that \lstinline|split l| returns two lists obtained by sharing the elements of the list \lstinline|l| in a manner as balanced as possible;
+        \item \lstinline|merge| such that \lstinline|merge l1 l2| returns a list containing the elements of the lists \lstinline|l1| and \lstinline|l2| sorted in ascending order, assuming that each of the lists \lstinline|l1| and \lstinline|l2| passed as a parameter is itself sorted in ascending order;
+        \item \lstinline|sort| such that \lstinline|sort l| returns a list containing the elements of the list \lstinline|l| sorted in ascending order.
+    \end{enumerate}
+\end{problem}
+
+\begin{problem}{Lists}{}
+    Write the functions
+    \begin{enumerate}[(a)]
+        \item \lstinline|square_sum| such that \lstinline|square_sum l| returns the sum of the square of the integers in the list \lstinline|l|.
+        \item \lstinline|find_opt| such that \lstinline|find_opt x l| returns \lstinline|Some i| if the element \lstinline|x| appears in the index \lstinline|i| of the list \lstinline|l| (but not before), and \lstinline|None| if \lstinline|x| does not appear in the list \lstinline|l|
+    \end{enumerate}
+    Redo the exercise without using the keyword \lstinline|rec|. To replace it, use and abuse the functions in the OCaml library \lstinline|List|.
+\end{problem}
+
+\begin{problem}{Tail recursion}{}
+    Create a list \lstinline|l| containing in order the positive integers from zero to one million.
+    Then write functions \lstinline|rev| and \lstinline|map| corresponding to the functions \lstinline|List.rev| and \lstinline|List.map| from OCaml. 
+    
+    You will need to make these functions applicable to the previous list \lstinline|l| without causing
+    a stack overflow.
+    \emph{Bonus}. Rewrite the functions from the previous exercises to make them tail recursive, if
+    relevant.
+\end{problem}
+
+\begin{problem}{Concatenation}{}
+    Here is a way to code the concatenation of two lists in OCaml.
+    \begin{lstlisting}[style=caml]
+        let rec concat l1 l2 = match l1 with
+        | []   -> l2
+        | x::s -> x :: (concat s l2)
+\end{lstlisting}
+    This function, like the \lstinline|@| operator provided by OCaml, has a cost proportional to the length of the first list. 
+    In order to be able to perform multiple concatenations without fear of their cost, 
+    we propose a new representation of sequences, 
+    based on the following data type (which can be seen as a concatenation tree).
+    \begin{lstlisting}[style=caml]
+        type 'a seq =
+        | Elt of 'a
+        | Seq of 'a seq * 'a seq
+\end{lstlisting}
+    The concatenation of two sequences \lstinline|s1| and \lstinline|s2| is therefore simply \lstinline|Seq(s1, s2)|. 
+    We can give ourselves a writing shortcut \lstinline|s1 @@ s2| with the definition
+    \begin{lstlisting}[style=caml]
+        let (@@) x y = Seq(x, y)
+\end{lstlisting}
+    Such a tree represents a sequence, obtained by considering all its elements in order from left to
+    right. 
+    Both trees \lstinline|Seq(Elt 1, Seq(Elt 2, Elt 3))| and \lstinline|Seq(Seq(Elt 1, Elt 2), Elt 3)| are the two possible representations of the list \lstinline|[1; 2; 3]|.\\
+    \vfil 
+    Write the following functions for this sequence structure:
+    \begin{enumerate}[(a)]
+        \item \lstinline|hd, tl, mem, rev, map, fold_left, fold_right | corresponding to functions of the same name on lists;
+        \item \lstinline|seq2list| such that \lstinline|seq2list s| returns a OCaml list representing the sequences (do not use \lstinline|@|);\\
+        \emph{Bonus} (difficult): give a tail recursive version of this function;
+        \item \lstinline|find_opt| such that \lstinline|find_opt x l| returns \lstinline|Some i| if the element \lstinline|x| appears at index \lstinline|i| in the sequence represented by \lstinline|i| (but not before) and \lstinline|None| if \lstinline|x| does not appear in \lstinline|s|;
+        \item \lstinline|nth| such that \lstinline|nth s n| returns the index element \lstinline|n| in \lstinline|s| (and throws an exception if the index is not suitable).
+    \end{enumerate}
+    How to enrich our sequence structure to potentially make the function \lstinline|nth| more efficient?
+    Define the corresponding new type and redefine the functions \lstinline|(@@)| and \lstinline|nth| accordingly. Are there any other functions that still need to be updated?
+\end{problem}
+
