@@ -306,13 +306,22 @@ let fold_right f s init =
 
 
 (* b *)
-let seq2list s = 
-    let rec aux s t = 
-        match s with
-        | Elt(a) -> a :: t
-        | Seq(l, r) -> aux l (aux r t)
+(* let seq2list s =  *)
+(*     let rec aux s t =  *)
+(*         match s with *)
+(*         | Elt(a) -> a :: t *)
+(*         | Seq(l, r) -> aux l (aux r t) *)
+(*     in *)
+(*     aux s [] *)
+(* Use an stack for TRO*)
+let seq2list s =
+    let rec aux stack acc =
+        match stack with
+        | [] -> acc
+        | Elt(a) :: rest -> aux rest (a :: acc)
+        | Seq(l, r) :: rest -> aux (r :: l :: rest) acc
     in
-    aux s []
+    aux [s] []
 
 (* c *)
 let find_opt x l =
