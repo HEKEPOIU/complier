@@ -2,3 +2,5 @@
 handout/
 *.zip
 *.pdf
+hw/HW2/mini-python/_build/
+hw/HW4/mini-turtle/_build/
